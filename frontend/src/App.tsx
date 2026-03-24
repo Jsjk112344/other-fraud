@@ -2,6 +2,8 @@ import { TopNavBar } from './components/TopNavBar';
 import { Sidebar } from './components/Sidebar';
 import { InputSection } from './components/InputSection';
 import { InvestigationTimeline } from './components/InvestigationTimeline';
+import { VerdictPanel } from './components/VerdictPanel';
+import { EvidenceSidebar } from './components/EvidenceSidebar';
 import { MobileBottomNav } from './components/MobileBottomNav';
 import { useInvestigation } from './hooks/useInvestigation';
 
@@ -22,21 +24,15 @@ export default function App() {
           <div className="mt-8 grid grid-cols-1 xl:grid-cols-12 gap-8 max-w-7xl mx-auto">
             <div className="xl:col-span-8">
               <InvestigationTimeline steps={steps} />
-              {/* VerdictPanel will be added in Plan 03 */}
+              {verdict && <VerdictPanel verdict={verdict} />}
             </div>
             <div className="xl:col-span-4">
-              {/* EvidenceSidebar will be added in Plan 03 */}
+              <EvidenceSidebar steps={steps} verdict={verdict} />
             </div>
           </div>
         )}
-        {/* Expose verdict and error for future use */}
         {error && (
           <p className="mt-4 text-center text-error text-sm font-body">{error}</p>
-        )}
-        {verdict && state === 'complete' && (
-          <p className="mt-4 text-center text-on-surface-variant text-xs font-body">
-            Investigation complete. Verdict panel coming in Plan 03.
-          </p>
         )}
       </main>
       <MobileBottomNav />
