@@ -34,7 +34,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 Plans:
 - [ ] 01-01-PLAN.md -- FastAPI backend with Pydantic models, mock F1 GP data, and SSE streaming endpoint
-- [ ] 01-02-PLAN.md -- React frontend with Tailwind v4 design system, SSE client, investigation hook, and animated timeline
+- [x] 01-02-PLAN.md -- React frontend with Tailwind v4 design system, SSE client, investigation hook, and animated timeline
 - [ ] 01-03-PLAN.md -- VerdictPanel, EvidenceSidebar, end-to-end wiring, and visual verification
 
 ### Phase 2: Core Investigation Pipeline
@@ -100,7 +100,7 @@ Note: Phase 3 and Phase 4 both depend on Phase 2 and are independent of each oth
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Application Skeleton with Mocks | 0/3 | Not started | - |
+| 1. Application Skeleton with Mocks | 2/3 | In progress | - |
 | 2. Core Investigation Pipeline | 0/4 | Not started | - |
 | 3. Classification and Verdict Engine | 0/1 | Not started | - |
 | 4. Cross-Platform Intelligence | 0/1 | Not started | - |
