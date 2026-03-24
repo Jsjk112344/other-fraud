@@ -46,11 +46,13 @@ Plans:
   2. Agent navigates to the seller's profile and returns real account age, total listings, listing categories, and review sentiment
   3. Agent checks at least one official ticket site (SISTIC, Ticketmaster SG, or F1 official) and returns real face value and sold-out status for the event
   4. Independent investigation steps (seller profile, official price check) run in parallel via asyncio.gather and the full investigation completes within 60 seconds
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] 02-01: TBD
-- [ ] 02-02: TBD
+- [ ] 02-01-PLAN.md -- TinyFish base agent wrapper, platform detection, Carousell and Telegram listing extractors
+- [ ] 02-02-PLAN.md -- Seller profile investigation (Carousell full review parsing, Telegram repeat-seller detection)
+- [ ] 02-03-PLAN.md -- Official price verification (Ticketmaster SG, F1 official, Google fallback)
+- [ ] 02-04-PLAN.md -- Parallel investigation orchestrator, SSE wiring, and LIVE badge
 
 ### Phase 3: Classification and Verdict Engine
 **Goal**: The system produces accurate, evidence-backed verdicts -- obvious fraud is caught instantly by rules, ambiguous cases get reasoned LLM classification, and a validation layer prevents embarrassing mistakes
@@ -99,7 +101,7 @@ Note: Phase 3 and Phase 4 both depend on Phase 2 and are independent of each oth
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Application Skeleton with Mocks | 0/3 | Not started | - |
-| 2. Core Investigation Pipeline | 0/2 | Not started | - |
+| 2. Core Investigation Pipeline | 0/4 | Not started | - |
 | 3. Classification and Verdict Engine | 0/1 | Not started | - |
 | 4. Cross-Platform Intelligence | 0/1 | Not started | - |
 | 5. Event Scan Mode | 0/1 | Not started | - |
