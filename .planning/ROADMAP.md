@@ -62,10 +62,11 @@ Plans:
   1. A listing priced at less than 40% of face value is classified as LIKELY_SCAM by the rules engine without making an LLM call
   2. A listing with ambiguous signals (moderate markup, new seller, real event) receives a reasoned classification from OpenAI gpt-4o with structured JSON output including category, confidence, and natural language explanation
   3. The validation layer overrides an incorrect LLM classification (e.g., prevents LEGITIMATE verdict on a listing with extreme underpricing) and the correction is visible in the verdict reasoning
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 03-01: TBD
+- [ ] 03-01-PLAN.md -- Rules engine with centralized config, deterministic classification, and validation layer with contradiction checks
+- [ ] 03-02-PLAN.md -- OpenAI gpt-4o structured output classification, two-tier orchestrator, and LLM error fallback
 
 ### Phase 4: Cross-Platform Intelligence
 **Goal**: The agent goes beyond single-listing analysis by scanning the broader market for the same event and detecting sellers cross-posting across platforms -- the "investigation" that makes FraudFish an intelligence agent, not just a classifier
@@ -102,6 +103,6 @@ Note: Phase 3 and Phase 4 both depend on Phase 2 and are independent of each oth
 |-------|----------------|--------|-----------|
 | 1. Application Skeleton with Mocks | 2/3 | In progress | - |
 | 2. Core Investigation Pipeline | 0/4 | Not started | - |
-| 3. Classification and Verdict Engine | 0/1 | Not started | - |
+| 3. Classification and Verdict Engine | 0/2 | Not started | - |
 | 4. Cross-Platform Intelligence | 0/1 | Not started | - |
 | 5. Event Scan Mode | 0/1 | Not started | - |
