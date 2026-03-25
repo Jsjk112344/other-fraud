@@ -75,10 +75,11 @@ Plans:
 **Success Criteria** (what must be TRUE):
   1. Agent scans 10+ other listings for the same event across platforms and displays the calculated market rate alongside the investigated listing's price, with statistical outliers highlighted
   2. Agent searches at least one other marketplace for the same seller name or listing text and reports whether cross-platform duplicates were found
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 04-01: TBD
+- [ ] 04-01-PLAN.md -- Stats module, market scan agent, cross-platform duplicate agent, and unit tests
+- [ ] 04-02-PLAN.md -- Pipeline integration, StepCard formatting, EvidenceSidebar outlier label and cross-platform matches
 
 ### Phase 5: Event Scan Mode
 **Goal**: Users can investigate an entire event's fraud landscape in one action -- enter an event name, the agent discovers and investigates multiple listings, and produces a threat intelligence summary showing the scale of suspicious activity
@@ -104,5 +105,5 @@ Note: Phase 3 and Phase 4 both depend on Phase 2 and are independent of each oth
 | 1. Application Skeleton with Mocks | 2/3 | In progress | - |
 | 2. Core Investigation Pipeline | 0/4 | Not started | - |
 | 3. Classification and Verdict Engine | 0/2 | Not started | - |
-| 4. Cross-Platform Intelligence | 0/1 | Not started | - |
+| 4. Cross-Platform Intelligence | 0/2 | Not started | - |
 | 5. Event Scan Mode | 0/1 | Not started | - |
