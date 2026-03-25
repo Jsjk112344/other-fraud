@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 02-01-PLAN.md
-last_updated: "2026-03-25T06:15:05Z"
+stopped_at: Completed 02-04-PLAN.md
+last_updated: "2026-03-25T06:23:35.989Z"
 last_activity: 2026-03-25 -- Completed 02-01 Listing Extractors
 progress:
   total_phases: 5
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 11
-  completed_plans: 7
-  percent: 54
+  completed_plans: 8
+  percent: 73
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-24)
 
 **Core value:** The agent must autonomously investigate a listing across multiple web sources and produce a verdict with visible evidence -- not just a score, but proof the audience can see being gathered in real-time.
-**Current focus:** Phase 2: Core Investigation Pipeline
+**Current focus:** Phase 2 complete. Ready for Phase 3 or 4.
 
 ## Current Position
 
 Phase: 2 of 5 (Core Investigation Pipeline)
 Plan: 4 of 4 in current phase
 Status: Executing
-Last activity: 2026-03-25 -- Completed 02-01 Listing Extractors
+Last activity: 2026-03-25 -- Completed 02-04 Live Investigation Pipeline
 
-Progress: [██████░░░░] 54%
+Progress: [███████░░░] 73%
 
 ## Performance Metrics
 
@@ -53,6 +53,7 @@ Progress: [██████░░░░] 54%
 | Phase 02 P02 | 4min | 2 tasks | 5 files |
 | Phase 02 P03 | 3min | 2 tasks | 3 files |
 | Phase 02 P01 | 5min | 2 tasks | 8 files |
+| Phase 02 P04 | 4min | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -76,6 +77,8 @@ Recent decisions affecting current work:
 - [Phase 02-03]: Three-tier fallback for event verification: official site -> Google search -> mock data
 - [Phase 02-03]: F1 events route to singaporegp.sg first, others route to Ticketmaster SG first
 - [Phase 02-01]: Carousell uses stealth+SG proxy; Telegram uses default profile; extractors return (data, is_live) tuple
+- [Phase 02]: Live pipeline replaces mock via try/except import with mock as fallback
+- [Phase 02]: LIVE badge only shown for _live=true; no CACHED indicator for fallback data
 
 ### Pending Todos
 
@@ -89,6 +92,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-25T06:15:05Z
-Stopped at: Completed 02-01-PLAN.md
-Resume file: .planning/phases/02-core-investigation-pipeline/02-04-PLAN.md
+Last session: 2026-03-25T06:23:35.987Z
+Stopped at: Completed 02-04-PLAN.md
+Resume file: None

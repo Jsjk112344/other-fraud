@@ -15,7 +15,7 @@ Requirements for hackathon submission (March 28, 2026).
 - [x] **PIPE-04**: Agent checks official ticket sites (SISTIC, Ticketmaster SG, F1 official) via TinyFish for event existence, face value, and sold-out status
 - [ ] **PIPE-05**: Agent scans 10+ other listings for the same event across platforms via TinyFish to calculate market rate and detect statistical outliers
 - [ ] **PIPE-06**: Agent searches other marketplaces for the same seller name or listing text via TinyFish to detect cross-platform duplicates
-- [ ] **PIPE-07**: Investigation steps run in parallel where independent (asyncio.gather) to complete within 60 seconds total
+- [x] **PIPE-07**: Investigation steps run in parallel where independent (asyncio.gather) to complete within 60 seconds total
 - [x] **PIPE-08**: Cached/fallback data exists for each investigation step so the demo functions even if TinyFish is slow or blocked
 
 ### Classification
@@ -86,7 +86,7 @@ Deferred to post-hackathon.
 | PIPE-04 | Phase 2 | Complete |
 | PIPE-05 | Phase 4 | Pending |
 | PIPE-06 | Phase 4 | Pending |
-| PIPE-07 | Phase 2 | Pending |
+| PIPE-07 | Phase 2 | Complete |
 | PIPE-08 | Phase 1 | Complete |
 | CLAS-01 | Phase 3 | Pending |
 | CLAS-02 | Phase 3 | Pending |
