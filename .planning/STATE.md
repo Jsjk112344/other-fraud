@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-03-24)
 ## Current Position
 
 Phase: 2 of 5 (Core Investigation Pipeline)
-Plan: 2 of 4 in current phase
+Plan: 3 of 4 in current phase
 Status: Executing
-Last activity: 2026-03-25 -- Completed 02-02 Seller Investigation Agents
+Last activity: 2026-03-25 -- Completed 02-03 Official Price Verification
 
-Progress: [████░░░░░░] 36%
+Progress: [█████░░░░░] 45%
 
 ## Performance Metrics
 
@@ -51,6 +51,7 @@ Progress: [████░░░░░░] 36%
 
 *Updated after each plan completion*
 | Phase 02 P02 | 4min | 2 tasks | 5 files |
+| Phase 02 P03 | 3min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -71,6 +72,8 @@ Recent decisions affecting current work:
 - [Phase 02-02]: Review sentiment uses keyword-based classification (positive/negative/neutral), not ML
 - [Phase 02-02]: Telegram fallback returns single-poster assumption rather than mock lookup
 - [Phase 02]: Agent fallback pattern: tinyfish_extract returns None -> use cached/default data
+- [Phase 02-03]: Three-tier fallback for event verification: official site -> Google search -> mock data
+- [Phase 02-03]: F1 events route to singaporegp.sg first, others route to Ticketmaster SG first
 
 ### Pending Todos
 
@@ -84,6 +87,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-25T06:15:06.493Z
-Stopped at: Completed 02-02-PLAN.md
-Resume file: None
+Last session: 2026-03-25T06:14:00Z
+Stopped at: Completed 02-03-PLAN.md
+Resume file: .planning/phases/02-core-investigation-pipeline/02-04-PLAN.md
