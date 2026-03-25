@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 02-03-PLAN.md
-last_updated: "2026-03-25T06:14:00Z"
-last_activity: 2026-03-25 -- Completed 02-03 Official Price Verification
+stopped_at: Completed 02-01-PLAN.md
+last_updated: "2026-03-25T06:15:05Z"
+last_activity: 2026-03-25 -- Completed 02-01 Listing Extractors
 progress:
   total_phases: 5
   completed_phases: 1
   total_plans: 11
-  completed_plans: 6
-  percent: 45
+  completed_plans: 7
+  percent: 54
 ---
 
 # Project State
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-03-24)
 ## Current Position
 
 Phase: 2 of 5 (Core Investigation Pipeline)
-Plan: 3 of 4 in current phase
+Plan: 4 of 4 in current phase
 Status: Executing
-Last activity: 2026-03-25 -- Completed 02-03 Official Price Verification
+Last activity: 2026-03-25 -- Completed 02-01 Listing Extractors
 
-Progress: [█████░░░░░] 45%
+Progress: [██████░░░░] 54%
 
 ## Performance Metrics
 
@@ -52,6 +52,7 @@ Progress: [█████░░░░░] 45%
 *Updated after each plan completion*
 | Phase 02 P02 | 4min | 2 tasks | 5 files |
 | Phase 02 P03 | 3min | 2 tasks | 3 files |
+| Phase 02 P01 | 5min | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -74,6 +75,7 @@ Recent decisions affecting current work:
 - [Phase 02]: Agent fallback pattern: tinyfish_extract returns None -> use cached/default data
 - [Phase 02-03]: Three-tier fallback for event verification: official site -> Google search -> mock data
 - [Phase 02-03]: F1 events route to singaporegp.sg first, others route to Ticketmaster SG first
+- [Phase 02-01]: Carousell uses stealth+SG proxy; Telegram uses default profile; extractors return (data, is_live) tuple
 
 ### Pending Todos
 
@@ -87,6 +89,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-25T06:14:00Z
-Stopped at: Completed 02-03-PLAN.md
+Last session: 2026-03-25T06:15:05Z
+Stopped at: Completed 02-01-PLAN.md
 Resume file: .planning/phases/02-core-investigation-pipeline/02-04-PLAN.md

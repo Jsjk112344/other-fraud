@@ -103,7 +103,7 @@ Note: Phase 3 and Phase 4 both depend on Phase 2 and are independent of each oth
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Application Skeleton with Mocks | 2/3 | In progress | - |
-| 2. Core Investigation Pipeline | 2/4 | In Progress|  |
+| 2. Core Investigation Pipeline | 3/4 | In Progress|  |
 | 3. Classification and Verdict Engine | 0/2 | Not started | - |
 | 4. Cross-Platform Intelligence | 0/2 | Not started | - |
 | 5. Event Scan Mode | 0/1 | Not started | - |

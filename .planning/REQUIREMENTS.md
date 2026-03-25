@@ -10,7 +10,7 @@ Requirements for hackathon submission (March 28, 2026).
 ### Investigation Pipeline
 
 - [x] **PIPE-01**: User can paste a Carousell/Viagogo listing URL into an input field and trigger an investigation
-- [ ] **PIPE-02**: Agent extracts listing details (price, seller name, description, transfer method, posting date) from the URL via TinyFish
+- [x] **PIPE-02**: Agent extracts listing details (price, seller name, description, transfer method, posting date) from the URL via TinyFish
 - [x] **PIPE-03**: Agent navigates to the seller's profile page via TinyFish and extracts account age, total listings, listing categories, and review text/sentiment
 - [x] **PIPE-04**: Agent checks official ticket sites (SISTIC, Ticketmaster SG, F1 official) via TinyFish for event existence, face value, and sold-out status
 - [ ] **PIPE-05**: Agent scans 10+ other listings for the same event across platforms via TinyFish to calculate market rate and detect statistical outliers
@@ -81,7 +81,7 @@ Deferred to post-hackathon.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | PIPE-01 | Phase 1 | Complete |
-| PIPE-02 | Phase 2 | Pending |
+| PIPE-02 | Phase 2 | Complete |
 | PIPE-03 | Phase 2 | Complete |
 | PIPE-04 | Phase 2 | Complete |
 | PIPE-05 | Phase 4 | Pending |
