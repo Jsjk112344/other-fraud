@@ -7,3 +7,4 @@ pytest-asyncio
 httpx
 tinyfish
 python-dotenv
+openai>=2.20.0
