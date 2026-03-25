@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 1: Application Skeleton with Mocks** - Complete working app (frontend + backend + SSE streaming + animated UI) using mock data, buildable before hackathon day
 - [x] **Phase 2: Core Investigation Pipeline** - Live TinyFish integration for listing extraction, seller profile, and official price verification (completed 2026-03-25)
 - [ ] **Phase 3: Classification and Verdict Engine** - Rules engine for obvious cases, OpenAI gpt-4o for ambiguous cases, validation layer to catch mistakes
-- [ ] **Phase 4: Cross-Platform Intelligence** - Market rate calculation from multiple listings and cross-platform duplicate detection
+- [x] **Phase 4: Cross-Platform Intelligence** - Market rate calculation from multiple listings and cross-platform duplicate detection (completed 2026-03-25)
 - [ ] **Phase 5: Event Scan Mode** - Batch investigation by event name with threat intelligence summary
 
 ## Phase Details
@@ -105,5 +105,5 @@ Note: Phase 3 and Phase 4 both depend on Phase 2 and are independent of each oth
 | 1. Application Skeleton with Mocks | 2/3 | In progress | - |
 | 2. Core Investigation Pipeline | 4/4 | Complete   | 2026-03-25 |
 | 3. Classification and Verdict Engine | 1/2 | In Progress|  |
-| 4. Cross-Platform Intelligence | 1/2 | In Progress|  |
+| 4. Cross-Platform Intelligence | 2/2 | Complete   | 2026-03-25 |
 | 5. Event Scan Mode | 0/1 | Not started | - |
