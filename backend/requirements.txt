@@ -5,3 +5,5 @@ pydantic==2.12.5
 pytest
 pytest-asyncio
 httpx
+tinyfish
+python-dotenv

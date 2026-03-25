@@ -12,6 +12,14 @@ with open(_DATA_PATH) as f:
     _raw = json.load(f)
 
 # Step ID -> mock data dict for that step
+def get_mock_data(step_id: str) -> dict:
+    """Get mock data for a given investigation step.
+
+    Provides cached fallback data when live TinyFish calls fail.
+    """
+    return MOCK_STEPS.get(step_id, {})
+
+
 MOCK_STEPS: dict[str, dict] = {
     "extract_listing": _raw["listing"],
     "investigate_seller": _raw["seller"],
