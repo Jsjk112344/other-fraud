@@ -20,10 +20,10 @@ Requirements for hackathon submission (March 28, 2026).
 
 ### Classification
 
-- [ ] **CLAS-01**: Rules engine classifies obvious cases (extreme underpricing < -40% face = LIKELY_SCAM, extreme markup > 300% on non-sold-out = SCALPING_VIOLATION) without an LLM call
+- [x] **CLAS-01**: Rules engine classifies obvious cases (extreme underpricing < -40% face = LIKELY_SCAM, extreme markup > 300% on non-sold-out = SCALPING_VIOLATION) without an LLM call
 - [ ] **CLAS-02**: OpenAI gpt-4o classifies ambiguous cases using full evidence from all investigation steps, returning structured JSON with category, confidence, and natural language reasoning
 - [x] **CLAS-03**: Four classification categories: LEGITIMATE, SCALPING_VIOLATION, LIKELY_SCAM, COUNTERFEIT_RISK
-- [ ] **CLAS-04**: Validation layer catches obvious LLM mistakes (e.g., calling extreme underpricing LEGITIMATE)
+- [x] **CLAS-04**: Validation layer catches obvious LLM mistakes (e.g., calling extreme underpricing LEGITIMATE)
 - [x] **CLAS-05**: Confidence score (0-100%) is calculated with enforcement gate at configurable threshold
 
 ### Real-Time Streaming UI
@@ -88,10 +88,10 @@ Deferred to post-hackathon.
 | PIPE-06 | Phase 4 | Pending |
 | PIPE-07 | Phase 2 | Complete |
 | PIPE-08 | Phase 1 | Complete |
-| CLAS-01 | Phase 3 | Pending |
+| CLAS-01 | Phase 3 | Complete |
 | CLAS-02 | Phase 3 | Pending |
 | CLAS-03 | Phase 1 | Complete |
-| CLAS-04 | Phase 3 | Pending |
+| CLAS-04 | Phase 3 | Complete |
 | CLAS-05 | Phase 1 | Complete |
 | RTUI-01 | Phase 1 | Complete |
 | RTUI-02 | Phase 1 | Complete |
