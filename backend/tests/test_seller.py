@@ -117,3 +117,82 @@ def test_analyze_review_sentiment_mixed():
     assert "1 positive" in result
     assert "1 negative" in result
     assert "1 neutral" in result
+
+
+# --- Telegram seller tests ---
+
+
+@pytest.mark.asyncio
+async def test_telegram_seller_fields():
+    """investigate_telegram_seller returns correct fields when TinyFish succeeds."""
+    mock_raw = {"username": "seller_sg", "message_count": 5, "first_seen": "2026-01-15"}
+    with patch("agents.seller_telegram.tinyfish_extract", new_callable=AsyncMock, return_value=mock_raw):
+        from agents.seller_telegram import investigate_telegram_seller
+
+        result, is_live = await investigate_telegram_seller("https://t.me/sgtickets/12345", "seller_sg")
+
+    assert is_live is True
+    assert "username" in result
+    assert "message_count" in result
+    assert "first_seen" in result
+    assert "repeat_seller" in result
+    assert "platform" in result
+    assert result["platform"] == "telegram"
+
+
+@pytest.mark.asyncio
+async def test_telegram_seller_fallback():
+    """investigate_telegram_seller falls back when TinyFish returns None."""
+    with patch("agents.seller_telegram.tinyfish_extract", new_callable=AsyncMock, return_value=None):
+        from agents.seller_telegram import investigate_telegram_seller
+
+        result, is_live = await investigate_telegram_seller("https://t.me/sgtickets/12345", "seller_sg")
+
+    assert is_live is False
+    assert result["username"] == "seller_sg"
+    assert result["repeat_seller"] is False
+
+
+@pytest.mark.asyncio
+async def test_telegram_seller_uses_group_url():
+    """investigate_telegram_seller calls tinyfish_extract with group URL (message ID stripped)."""
+    mock_extract = AsyncMock(return_value={"message_count": 1, "first_seen": "2026-03-20"})
+    with patch("agents.seller_telegram.tinyfish_extract", mock_extract):
+        from agents.seller_telegram import investigate_telegram_seller
+
+        await investigate_telegram_seller("https://t.me/sgtickets/12345", "seller_sg")
+
+    mock_extract.assert_called_once()
+    call_kwargs = mock_extract.call_args
+    called_url = call_kwargs.kwargs.get("url") or call_kwargs[1].get("url") or call_kwargs[0][0]
+    assert called_url == "https://t.me/sgtickets"
+
+
+def test_normalize_telegram_seller_repeat():
+    """normalize_telegram_seller sets repeat_seller=True when message_count > 1."""
+    from agents.seller_telegram import normalize_telegram_seller
+
+    result = normalize_telegram_seller({"message_count": 3, "first_seen": "2026-01-15"}, "seller_sg")
+    assert result["repeat_seller"] is True
+
+
+def test_normalize_telegram_seller_single():
+    """normalize_telegram_seller sets repeat_seller=False when message_count <= 1."""
+    from agents.seller_telegram import normalize_telegram_seller
+
+    result = normalize_telegram_seller({"message_count": 1, "first_seen": "2026-03-20"}, "seller_sg")
+    assert result["repeat_seller"] is False
+
+
+def test_build_telegram_group_url():
+    """build_telegram_group_url strips message ID from URL."""
+    from agents.seller_telegram import build_telegram_group_url
+
+    assert build_telegram_group_url("https://t.me/sgtickets/12345") == "https://t.me/sgtickets"
+
+
+def test_build_telegram_group_url_no_message_id():
+    """build_telegram_group_url returns URL unchanged when no message ID."""
+    from agents.seller_telegram import build_telegram_group_url
+
+    assert build_telegram_group_url("https://t.me/sgtickets") == "https://t.me/sgtickets"
