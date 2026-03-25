@@ -39,7 +39,9 @@
     "min_price": 320.00,
     "max_price": 950.00,
     "this_listing_percentile": 3,
-    "price_deviation_percent": -74.1
+    "price_deviation_percent": -74.1,
+    "is_outlier": true,
+    "outlier_direction": "suspiciously_low"
   },
   "cross_platform": {
     "duplicates_found": true,

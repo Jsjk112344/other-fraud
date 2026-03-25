@@ -1,5 +1,83 @@
 import type { StepWithState } from '../types/investigation';
 
+function MarketDataBlock({ data }: { data: Record<string, unknown> }) {
+  const listingsScanned = data.listings_scanned as number;
+  const breakdown = data.platform_breakdown as Record<string, number> | undefined;
+  const isOutlier = data.is_outlier as boolean;
+  const outlierDir = data.outlier_direction as string | null;
+  const deviation = data.price_deviation_percent as number | undefined;
+  const percentile = data.this_listing_percentile as number | undefined;
+
+  if (listingsScanned < 4) {
+    return (
+      <p className="font-mono text-[11px] text-on-surface-variant italic">
+        Insufficient market data ({listingsScanned} listings found)
+      </p>
+    );
+  }
+
+  const breakdownStr = breakdown
+    ? Object.entries(breakdown).map(([k, v]) => `${k}: ${v}`).join(', ')
+    : '';
+
+  const devClass = deviation !== undefined
+    ? (deviation < -30 ? 'text-error' : deviation > 100 ? 'text-amber-400' : 'text-on-surface-variant')
+    : 'text-on-surface-variant';
+
+  const pctClass = percentile !== undefined
+    ? (percentile < 10 ? 'text-error' : percentile > 90 ? 'text-amber-400' : 'text-on-surface-variant')
+    : 'text-on-surface-variant';
+
+  return (
+    <div className="font-mono text-[11px] text-on-surface-variant leading-relaxed space-y-0.5">
+      <p>Listings Scanned: {listingsScanned} ({breakdownStr})</p>
+      <p>Median Price: S${(data.median_price as number)?.toFixed(2)}</p>
+      <p>Average Price: S${(data.average_price as number)?.toFixed(2)}</p>
+      <p>Range: S${(data.min_price as number)?.toFixed(2)} - S${(data.max_price as number)?.toFixed(2)}</p>
+      <p className={pctClass}>This Listing: {percentile}th percentile</p>
+      <p className={devClass}>Deviation: {deviation}% from median</p>
+      <p className={isOutlier ? 'text-error' : 'text-green-400'}>
+        Outlier: {isOutlier ? 'YES' : 'NO'}{outlierDir ? ` - ${outlierDir.replace('_', ' ')}` : ''}
+      </p>
+    </div>
+  );
+}
+
+function CrossPlatformDataBlock({ data }: { data: Record<string, unknown> }) {
+  const found = data.duplicates_found as boolean;
+  const matches = (data.matches as Array<Record<string, unknown>>) || [];
+  const displayed = matches.slice(0, 3);
+  const remaining = matches.length - 3;
+
+  return (
+    <div className="font-mono text-[11px] leading-relaxed space-y-1">
+      <p className={found ? 'text-amber-400' : 'text-green-400'}>
+        Duplicates Found: {found ? 'YES' : 'NO'}
+      </p>
+      {!found && (
+        <p className="text-on-surface-variant">No matching sellers or listings detected.</p>
+      )}
+      {displayed.map((match, i) => {
+        const sim = match.similarity_score as number;
+        const simPct = Math.round(sim * 100);
+        const simClass = sim >= 0.9 ? 'text-error' : 'text-amber-400';
+        return (
+          <div key={i} className="text-on-surface-variant pl-2 mt-1">
+            <p className="text-on-surface">Match {i + 1}: {match.platform as string}</p>
+            <p>  Seller: &quot;{match.seller_name as string}&quot;</p>
+            <p>  Title: &quot;{match.listing_title as string}&quot;</p>
+            <p>  Price: S${(match.price as number)?.toFixed(2)}</p>
+            <p className={simClass}>  Similarity: {simPct}%</p>
+          </div>
+        );
+      })}
+      {remaining > 0 && (
+        <p className="text-on-surface-variant">... and {remaining} more matches</p>
+      )}
+    </div>
+  );
+}
+
 interface StepCardProps {
   step: StepWithState;
 }
@@ -105,10 +183,16 @@ export function StepCard({ step }: StepCardProps) {
         {/* Complete: data block */}
         {isComplete && step.data && (
           <div className="bg-black/20 rounded p-3 mt-3">
-            <pre className="font-mono text-[11px] text-on-surface-variant leading-relaxed whitespace-pre-wrap">
-              {JSON.stringify(step.data, null, 2).slice(0, 200)}
-              {JSON.stringify(step.data, null, 2).length > 200 ? '...' : ''}
-            </pre>
+            {step.id === 'check_market' ? (
+              <MarketDataBlock data={step.data} />
+            ) : step.id === 'cross_platform' ? (
+              <CrossPlatformDataBlock data={step.data} />
+            ) : (
+              <pre className="font-mono text-[11px] text-on-surface-variant leading-relaxed whitespace-pre-wrap">
+                {JSON.stringify(step.data, null, 2).slice(0, 200)}
+                {JSON.stringify(step.data, null, 2).length > 200 ? '...' : ''}
+              </pre>
+            )}
           </div>
         )}
 
