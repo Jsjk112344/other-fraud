@@ -7,6 +7,12 @@ from fastapi import APIRouter, Request
 from sse_starlette.sse import EventSourceResponse
 
 from models.events import InvestigateRequest
+
+try:
+    from agents.pipeline import run_live_investigation
+except ImportError:
+    run_live_investigation = None
+
 from mock.pipeline import run_mock_investigation
 
 router = APIRouter()
@@ -37,8 +43,11 @@ async def investigate(request: Request, body: InvestigateRequest):
 
         return EventSourceResponse(error_generator())
 
+    # Use live pipeline if available, fall back to mock
+    pipeline = run_live_investigation(body.url) if run_live_investigation else run_mock_investigation(body.url)
+
     async def event_generator():
-        async for event in run_mock_investigation(body.url):
+        async for event in pipeline:
             if await request.is_disconnected():
                 break
             yield {

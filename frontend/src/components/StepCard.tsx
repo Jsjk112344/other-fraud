@@ -9,6 +9,7 @@ export function StepCard({ step }: StepCardProps) {
   const isActive = step.status === 'active';
   const isComplete = step.status === 'complete';
   const isError = step.status === 'error';
+  const isLive = isComplete && step.data?._live === true;
 
   return (
     <div className="flex gap-6">
@@ -81,6 +82,16 @@ export function StepCard({ step }: StepCardProps) {
           )}
           {isError && (
             <span className="text-error text-xs uppercase tracking-wider font-body">Error</span>
+          )}
+          {isLive && (
+            <span
+              className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-green-400 border border-green-500/25 transition-opacity duration-300 ease-out"
+              style={{ backgroundColor: 'rgba(34, 197, 94, 0.15)' }}
+              aria-label="Data sourced from live investigation"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
+              LIVE
+            </span>
           )}
         </div>
 

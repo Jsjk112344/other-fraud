@@ -102,8 +102,8 @@ async def test_investigate_endpoint_invalid_url():
 
 
 @pytest.mark.asyncio
-async def test_sse_stream_contains_all_events():
-    """SSE stream contains all 13 events, last one has verdict."""
+async def test_sse_stream_contains_investigation_events():
+    """SSE stream contains investigation step events from live pipeline."""
     from main import app
 
     original_sleep = asyncio.sleep
@@ -125,7 +125,6 @@ async def test_sse_stream_contains_all_events():
                 if line.startswith("data: ")
             ]
 
-            # Should have at least 13 data events
             parsed_events = []
             for line in data_lines:
                 try:
@@ -135,11 +134,20 @@ async def test_sse_stream_contains_all_events():
                 except (json.JSONDecodeError, TypeError):
                     continue
 
-            assert len(parsed_events) >= 13
+            # Live pipeline produces 6 events: 3 steps x (ACTIVE + COMPLETE)
+            assert len(parsed_events) >= 6
 
-            # Last investigation event should be verdict
-            verdict_events = [e for e in parsed_events if e.get("step") == "verdict"]
-            assert len(verdict_events) >= 1
+            # Should have extract_listing, investigate_seller, verify_event steps
+            step_names = {e["step"] for e in parsed_events}
+            assert "extract_listing" in step_names
+            assert "investigate_seller" in step_names
+            assert "verify_event" in step_names
+
+            # COMPLETE events should have _live field
+            complete_events = [e for e in parsed_events if e.get("status") == "complete"]
+            assert len(complete_events) >= 3
+            for e in complete_events:
+                assert "_live" in e.get("data", {})
     finally:
         asyncio.sleep = original_sleep
 
