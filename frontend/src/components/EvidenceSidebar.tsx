@@ -18,6 +18,7 @@ export function EvidenceSidebar({ steps }: EvidenceSidebarProps) {
   const sellerData = getStepData(steps, 'investigate_seller');
   const eventData = getStepData(steps, 'verify_event');
   const marketData = getStepData(steps, 'check_market');
+  const crossPlatformData = getStepData(steps, 'cross_platform');
 
   const accountAgeDays = sellerData?.account_age_days as number | undefined;
   const priceDeviation = marketData?.price_deviation_percent as number | undefined;
@@ -128,8 +129,54 @@ export function EvidenceSidebar({ steps }: EvidenceSidebarProps) {
               </Bar>
             </BarChart>
             {priceDeviation !== undefined && (
-              <p className="text-xs font-mono text-on-surface-variant mt-2">
-                Price is {Math.abs(priceDeviation)}% lower than market average
+              <>
+                <p className="text-xs font-mono text-on-surface-variant mt-2">
+                  Price is {Math.abs(priceDeviation)}% {priceDeviation < 0 ? 'lower' : 'higher'} than market average
+                </p>
+                {(marketData?.is_outlier as boolean) && (
+                  <p className="font-mono text-xs text-error uppercase tracking-wider mt-1">
+                    STATISTICAL OUTLIER - {(marketData?.outlier_direction as string)?.replace('_', ' ')}
+                  </p>
+                )}
+              </>
+            )}
+          </div>
+        )}
+
+        {/* Cross-Platform Matches */}
+        {crossPlatformData && (
+          <div>
+            <p className="text-[10px] uppercase tracking-wider text-on-surface-variant mb-2">
+              CROSS-PLATFORM MATCHES
+            </p>
+            {(crossPlatformData.duplicates_found as boolean) ? (
+              <div className="space-y-2">
+                {((crossPlatformData.matches as Array<Record<string, unknown>>) || []).map((match, i) => {
+                  const sim = match.similarity_score as number;
+                  const simPct = Math.round(sim * 100);
+                  const simClass = sim >= 0.9 ? 'text-error' : 'text-amber-400';
+                  return (
+                    <div key={i} className="bg-surface-container rounded-lg p-3">
+                      <div className="flex items-center gap-1.5 mb-1">
+                        <span className="material-symbols-outlined text-on-surface-variant text-sm">travel_explore</span>
+                        <span className="text-xs font-body text-on-surface">{match.platform as string}</span>
+                      </div>
+                      <p className="font-mono text-[11px] text-on-surface-variant">
+                        Seller: &quot;{match.seller_name as string}&quot;
+                      </p>
+                      <p className={`font-mono text-[11px] ${simClass}`}>
+                        Similarity: {simPct}%
+                      </p>
+                      <p className="font-mono text-[11px] text-on-surface">
+                        S${(match.price as number)?.toFixed(2)}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <p className="text-xs font-body text-on-surface-variant italic">
+                No cross-platform duplicates detected
               </p>
             )}
           </div>
