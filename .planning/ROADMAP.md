@@ -108,4 +108,4 @@ Note: Phase 3 and Phase 4 both depend on Phase 2 and are independent of each oth
 | 2. Core Investigation Pipeline | 4/4 | Complete   | 2026-03-25 |
 | 3. Classification and Verdict Engine | 1/2 | In Progress|  |
 | 4. Cross-Platform Intelligence | 2/2 | Complete   | 2026-03-25 |
-| 5. Event Scan Mode | 0/3 | Not started | - |
+| 5. Event Scan Mode | 2/3 | In Progress|  |
