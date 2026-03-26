@@ -28,3 +28,28 @@ class VerdictResult(BaseModel):
     confidence: float
     reasoning: str
     signals: list[Signal]
+
+
+class ScanRequest(BaseModel):
+    event_name: str
+
+
+class ScanListingResult(BaseModel):
+    listing_id: str
+    url: Optional[str] = None
+    platform: str
+    title: str
+    price: float
+    seller: str
+    verdict: Optional[VerdictResult] = None
+    status: str  # "pending" | "investigating" | "complete" | "error"
+
+
+class ScanStats(BaseModel):
+    total_listings: int = 0
+    investigated: int = 0
+    flagged: int = 0
+    confirmed_scams: int = 0
+    fraud_exposure: float = 0.0
+    by_platform: dict = {}
+    by_category: dict = {}
