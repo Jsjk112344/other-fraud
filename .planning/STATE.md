@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: completed
-stopped_at: Completed 05-02-PLAN.md
-last_updated: "2026-03-26T06:06:48.051Z"
-last_activity: 2026-03-25 -- Completed 04-02 Pipeline + UI Integration
+status: executing
+stopped_at: Completed 05-01-PLAN.md
+last_updated: "2026-03-26T06:07:53.433Z"
+last_activity: 2026-03-26 -- Completed 05-02 Frontend Scan Infrastructure
 progress:
   total_phases: 5
   completed_phases: 4
   total_plans: 14
-  completed_plans: 12
-  percent: 91
+  completed_plans: 13
+  percent: 86
 ---
 
 # Project State
@@ -88,6 +88,7 @@ Recent decisions affecting current work:
 - [Phase 04]: Import tinyfish_extract from agents.base instead of creating placeholder functions
 - [Phase 04]: Re-raise RuntimeError when all cross-platform searches fail to trigger fallback wrapper
 - [Phase 04]: Inline MarketDataBlock and CrossPlatformDataBlock as functions within StepCard.tsx
+- [Phase 05-01]: investigate_one returns event list instead of yielding for asyncio.as_completed compatibility
 - [Phase 05]: InputSection tab state controlled by parent via activeMode/onModeChange for App.tsx integration in Plan 03
 
 ### Pending Todos
@@ -102,6 +103,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-26T06:06:48.049Z
-Stopped at: Completed 05-02-PLAN.md
+Last session: 2026-03-26T06:07:53.426Z
+Stopped at: Completed 05-01-PLAN.md
 Resume file: None

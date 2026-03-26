@@ -41,9 +41,9 @@ Requirements for hackathon submission (March 28, 2026).
 ### Event Scan Mode
 
 - [x] **SCAN-01**: User can enter an event name to trigger a batch scan across multiple marketplaces
-- [ ] **SCAN-02**: Agent searches Carousell and Viagogo for listings matching the event via TinyFish
-- [ ] **SCAN-03**: Agent runs investigation pipeline on each discovered listing
-- [ ] **SCAN-04**: Threat intelligence summary displays: total listings found, flagged suspicious count, confirmed likely scam count, estimated fraud exposure in SGD
+- [x] **SCAN-02**: Agent searches Carousell and Viagogo for listings matching the event via TinyFish
+- [x] **SCAN-03**: Agent runs investigation pipeline on each discovered listing
+- [x] **SCAN-04**: Threat intelligence summary displays: total listings found, flagged suspicious count, confirmed likely scam count, estimated fraud exposure in SGD
 
 ## v2 Requirements
 
@@ -103,9 +103,9 @@ Deferred to post-hackathon.
 | RTUI-08 | Phase 1 | Pending |
 | RTUI-09 | Phase 1 | Complete |
 | SCAN-01 | Phase 5 | Complete |
-| SCAN-02 | Phase 5 | Pending |
-| SCAN-03 | Phase 5 | Pending |
-| SCAN-04 | Phase 5 | Pending |
+| SCAN-02 | Phase 5 | Complete |
+| SCAN-03 | Phase 5 | Complete |
+| SCAN-04 | Phase 5 | Complete |
 
 **Coverage:**
 - v1 requirements: 26 total
