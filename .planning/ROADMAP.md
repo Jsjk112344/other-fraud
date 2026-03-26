@@ -89,10 +89,12 @@ Plans:
   1. User can enter an event name (e.g., "F1 Singapore Grand Prix 2026") and the agent searches Carousell and Viagogo for matching listings
   2. Agent runs the full investigation pipeline on each discovered listing and streams progress for all investigations
   3. Threat intelligence summary displays total listings found, flagged suspicious count, confirmed likely scam count, and estimated fraud exposure in SGD
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 05-01: TBD
+- [ ] 05-01-PLAN.md -- Backend scan pipeline orchestrator, /api/scan SSE endpoint, Pydantic models, and tests
+- [ ] 05-02-PLAN.md -- Frontend scan types, SSE client, useEventScan hook, and InputSection tab toggle
+- [ ] 05-03-PLAN.md -- ThreatSummary banner, ScanListingRow with expand/collapse, ScanResults container, App.tsx wiring
 
 ## Progress
 
@@ -106,4 +108,4 @@ Note: Phase 3 and Phase 4 both depend on Phase 2 and are independent of each oth
 | 2. Core Investigation Pipeline | 4/4 | Complete   | 2026-03-25 |
 | 3. Classification and Verdict Engine | 1/2 | In Progress|  |
 | 4. Cross-Platform Intelligence | 2/2 | Complete   | 2026-03-25 |
-| 5. Event Scan Mode | 0/1 | Not started | - |
+| 5. Event Scan Mode | 0/3 | Not started | - |
