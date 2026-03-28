@@ -1,18 +1,40 @@
-"""OpenAI gpt-4o structured output classification for ambiguous fraud cases."""
+"""LLM-based classification for ambiguous fraud cases. Supports OpenAI and Anthropic."""
 
 import json
-from openai import AsyncOpenAI
-from models.events import VerdictResult
+import os
+from models.events import VerdictResult, Signal
+from models.enums import ClassificationCategory, SignalSeverity
 
-_client = None
+_openai_client = None
+_anthropic_client = None
 
 
-def _get_client() -> AsyncOpenAI:
-    """Lazy-initialize the OpenAI client (avoids import-time API key requirement)."""
-    global _client
-    if _client is None:
-        _client = AsyncOpenAI()  # Reads OPENAI_API_KEY from environment
-    return _client
+def _get_provider() -> str:
+    """Detect which LLM provider to use based on available API keys."""
+    if os.environ.get("ANTHROPIC_API_KEY"):
+        return "anthropic"
+    if os.environ.get("OPENAI_API_KEY") and os.environ["OPENAI_API_KEY"] != "your-openai-api-key-here":
+        return "openai"
+    if os.environ.get("ANTHROPIC_API_KEY"):
+        return "anthropic"
+    raise RuntimeError("No LLM API key found. Set ANTHROPIC_API_KEY or OPENAI_API_KEY in backend/.env")
+
+
+def _get_openai_client():
+    global _openai_client
+    if _openai_client is None:
+        from openai import AsyncOpenAI
+        _openai_client = AsyncOpenAI()
+    return _openai_client
+
+
+def _get_anthropic_client():
+    global _anthropic_client
+    if _anthropic_client is None:
+        from anthropic import AsyncAnthropic
+        _anthropic_client = AsyncAnthropic()
+    return _anthropic_client
+
 
 SYSTEM_PROMPT = """You are a fraud classification expert for Singapore ticket marketplaces.
 
@@ -36,19 +58,54 @@ For each signal, assign:
 Provide a confidence score (0-100) and 2-3 sentence reasoning summary hitting key evidence points.
 Focus on Singapore context: Carousell norms, SGD pricing, local events."""
 
+VERDICT_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "category": {"type": "string", "enum": ["LEGITIMATE", "SCALPING_VIOLATION", "LIKELY_SCAM", "COUNTERFEIT_RISK"]},
+        "confidence": {"type": "number", "description": "0-100"},
+        "reasoning": {"type": "string", "description": "2-3 sentence summary"},
+        "signals": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string"},
+                    "severity": {"type": "string", "enum": ["CRITICAL", "WARNING", "NEUTRAL", "CLEAR"]},
+                    "segmentsFilled": {"type": "integer", "minimum": 1, "maximum": 5},
+                },
+                "required": ["name", "severity", "segmentsFilled"],
+            },
+        },
+    },
+    "required": ["category", "confidence", "reasoning", "signals"],
+}
+
 
 def format_evidence(evidence: dict) -> str:
     """Format investigation evidence as structured text for the LLM."""
     return f"Investigation evidence for classification:\n\n{json.dumps(evidence, indent=2, default=str)}"
 
 
-async def classify_with_llm(evidence: dict) -> VerdictResult:
-    """Classify a listing using OpenAI gpt-4o structured output.
+def _parse_verdict(data: dict) -> VerdictResult:
+    """Parse raw LLM JSON into a VerdictResult."""
+    return VerdictResult(
+        category=ClassificationCategory(data["category"]),
+        confidence=float(data["confidence"]),
+        reasoning=data["reasoning"],
+        signals=[
+            Signal(
+                name=s["name"],
+                severity=SignalSeverity(s["severity"]),
+                segmentsFilled=s["segmentsFilled"],
+            )
+            for s in data.get("signals", [])
+        ],
+    )
 
-    Sends full evidence dump (no pre-filtering per user decision).
-    Returns VerdictResult deserialized directly from gpt-4o response.
-    """
-    client = _get_client()
+
+async def _classify_openai(evidence: dict) -> VerdictResult:
+    """Classify using OpenAI gpt-4o structured output."""
+    client = _get_openai_client()
     completion = await client.beta.chat.completions.parse(
         model="gpt-4o",
         messages=[
@@ -63,3 +120,37 @@ async def classify_with_llm(evidence: dict) -> VerdictResult:
     if result is None:
         raise ValueError("OpenAI model refused to classify -- no parsed result")
     return result
+
+
+async def _classify_anthropic(evidence: dict) -> VerdictResult:
+    """Classify using Claude via Anthropic's tool use for structured output."""
+    client = _get_anthropic_client()
+    response = await client.messages.create(
+        model="claude-sonnet-4-20250514",
+        max_tokens=2000,
+        system=SYSTEM_PROMPT,
+        tools=[{
+            "name": "submit_verdict",
+            "description": "Submit the fraud classification verdict with signals and reasoning.",
+            "input_schema": VERDICT_SCHEMA,
+        }],
+        tool_choice={"type": "tool", "name": "submit_verdict"},
+        messages=[
+            {"role": "user", "content": format_evidence(evidence)},
+        ],
+    )
+    for block in response.content:
+        if block.type == "tool_use" and block.name == "submit_verdict":
+            return _parse_verdict(block.input)
+    raise ValueError("Anthropic model did not return a tool use result")
+
+
+async def classify_with_llm(evidence: dict) -> VerdictResult:
+    """Classify a listing using whichever LLM provider has an API key set.
+
+    Checks ANTHROPIC_API_KEY first, then OPENAI_API_KEY.
+    """
+    provider = _get_provider()
+    if provider == "anthropic":
+        return await _classify_anthropic(evidence)
+    return await _classify_openai(evidence)

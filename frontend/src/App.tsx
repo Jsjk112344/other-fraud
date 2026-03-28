@@ -7,30 +7,37 @@ import { VerdictPanel } from './components/VerdictPanel';
 import { EvidenceSidebar } from './components/EvidenceSidebar';
 import { MobileBottomNav } from './components/MobileBottomNav';
 import { ScanResults } from './components/ScanResults';
+import { ThreatDashboard } from './components/ThreatDashboard';
 import { useInvestigation } from './hooks/useInvestigation';
 import { useEventScan } from './hooks/useEventScan';
+import { useDashboard } from './hooks/useDashboard';
 
-type InputMode = 'investigate' | 'scan';
+type InputMode = 'investigate' | 'scan' | 'dashboard';
 
 export default function App() {
   const [mode, setMode] = useState<InputMode>('investigate');
   const investigation = useInvestigation();
   const scan = useEventScan();
+  const dashboard = useDashboard();
 
   const isRunning =
     mode === 'investigate'
       ? investigation.state === 'running'
-      : scan.state === 'scanning';
+      : mode === 'scan'
+        ? scan.state === 'scanning'
+        : dashboard.state === 'discovering' || dashboard.state === 'scanning';
 
   function handleModeChange(newMode: InputMode) {
     if (investigation.state === 'running') investigation.cancel();
     if (scan.state === 'scanning') scan.cancel();
+    if (dashboard.state === 'discovering' || dashboard.state === 'scanning') dashboard.cancel();
     setMode(newMode);
   }
 
   function handleCancel() {
     if (mode === 'investigate') investigation.cancel();
-    else scan.cancel();
+    else if (mode === 'scan') scan.cancel();
+    else dashboard.cancel();
   }
 
   return (
@@ -41,6 +48,7 @@ export default function App() {
         <InputSection
           onSubmit={investigation.start}
           onScan={scan.start}
+          onDashboard={dashboard.discover}
           isRunning={isRunning}
           onCancel={handleCancel}
           activeMode={mode}
@@ -82,12 +90,46 @@ export default function App() {
           </div>
         )}
 
+        {/* Dashboard mode */}
+        {mode === 'dashboard' && dashboard.state !== 'idle' && (
+          <div className="mt-8 max-w-7xl mx-auto">
+            <ThreatDashboard
+              state={dashboard.state}
+              events={dashboard.events}
+              aggregateStats={dashboard.aggregateStats}
+              isLive={dashboard.isLive}
+              progressMessage={dashboard.progressMessage}
+              activeStream={dashboard.activeStream}
+              agentNarration={dashboard.agentNarration}
+              onScanAll={dashboard.scanAll}
+            />
+          </div>
+        )}
+
+        {/* Dashboard mode - idle empty state */}
+        {mode === 'dashboard' && dashboard.state === 'idle' && (
+          <div className="mt-8 max-w-7xl mx-auto">
+            <div className="flex flex-col items-center justify-center min-h-[300px] text-center">
+              <span className="material-symbols-outlined text-6xl text-outline/30">dashboard</span>
+              <h2 className="text-xl font-headline font-bold text-on-surface mt-4">
+                Threat Dashboard
+              </h2>
+              <p className="text-sm font-body text-on-surface-variant max-w-md mt-2">
+                Automatically discover high-profile events in Singapore, rank them by fraud risk, and scan for suspicious listings across all marketplaces.
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Error display */}
         {mode === 'investigate' && investigation.error && (
           <p className="mt-4 text-center text-error text-sm font-body">{investigation.error}</p>
         )}
         {mode === 'scan' && scan.error && (
           <p className="mt-4 text-center text-error text-sm font-body">{scan.error}</p>
+        )}
+        {mode === 'dashboard' && dashboard.error && (
+          <p className="mt-4 text-center text-error text-sm font-body">{dashboard.error}</p>
         )}
       </main>
       <MobileBottomNav />

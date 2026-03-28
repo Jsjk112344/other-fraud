@@ -8,3 +8,4 @@ httpx
 tinyfish
 python-dotenv
 openai>=2.20.0
+anthropic>=0.39.0
